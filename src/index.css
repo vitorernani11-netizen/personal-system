@@ -1,0 +1,117 @@
+:root {
+  /* Paleta Oficial Personal em Dia */
+  --bg-app: #F7F5F0;
+  --bg-card: #FFFFFF;
+  --border-color: #E4DFD5;
+  --text-main: #16181A;
+  --text-secondary: #55595F;
+
+  /* Ação Primária */
+  --primary: #B4401F;
+  --primary-contrast: #FFFFFF;
+  --primary-tint: #FBEBE4;
+
+  /* Status e Modalidades */
+  --positive: #1C6B4B;
+  --positive-bg: #E3EFE9;
+  --negative: #9E2B1E;
+  --negative-bg: #FAE7E4;
+  --online: #2A4C7D;
+  --online-bg: #E5ECF5;
+
+  /* Tipografia */
+  --font-heading: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Raios de borda */
+  --radius-card: 14px;
+  --radius-btn: 10px;
+  --radius-badge: 6px;
+
+  /* Alvo de toque mínimo mobile */
+  --min-touch-target: 44px;
+
+  font-family: var(--font-body);
+  color: var(--text-main);
+  background-color: var(--bg-app);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+#root {
+  width: 100%;
+  max-width: 440px; /* Alvo mobile 390px com margem */
+  min-height: 100vh;
+  background-color: var(--bg-app);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+}
+
+button {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  min-height: var(--min-touch-target);
+  border-radius: var(--radius-btn);
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+  user-select: none;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-contrast);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border-color: var(--border-color);
+  color: var(--text-main);
+}
+
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  padding: 16px;
+}
