@@ -6,7 +6,7 @@ import { Header } from '../components/ui/Header';
 import { EmptyState } from '../components/ui/EmptyState';
 import { IconHoje, IconWhatsApp, IconChevronRight, IconPlus, IconClock, IconCheck } from '../components/ui/Icons';
 import { navegarPara } from '../router';
-import { db, carregarDadosDemonstracao } from '../db';
+import { db } from '../db';
 import { alternarPresenca, obterPresencasData } from '../db/presenca';
 import { DIAS_SEMANA_MAP } from '../utils/formatters';
 import type { Aluno, Cobranca, RegistroPresenca } from '../types/database';
@@ -165,11 +165,6 @@ export const HojeView: React.FC = () => {
     await carregarDados();
   };
 
-  const handleCarregarDadosDemo = async () => {
-    await carregarDadosDemonstracao();
-    await carregarDados();
-  };
-
   if (carregando) {
     return (
       <div style={{ padding: '24px', textAlign: 'center', color: 'var(--text-secondary)' }}>
@@ -209,19 +204,16 @@ export const HojeView: React.FC = () => {
       />
 
       <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {/* Banner de Demonstração quando vazio */}
+        {/* Banner inicial quando vazio */}
         {totalAlunosCadastrados === 0 && (
           <Card style={{ borderLeft: '4px solid var(--primary)', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <h3 style={{ fontSize: '15px' }}>Comece seus testes agora</h3>
+            <h3 style={{ fontSize: '15px' }}>Nenhum aluno cadastrado</h3>
             <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
-              Nenhum aluno cadastrado no momento. Você pode carregar um conjunto de dados de teste (Mariana, Lucas e Camila) com contratos e cobranças prontas em 1 clique:
+              Seu painel está limpo e pronto para uso real. Cadastre seu primeiro aluno para começar a gerenciar treinos, presenças, contratos e cobranças:
             </p>
             <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
-              <Button variant="primary" onClick={handleCarregarDadosDemo} icon={<IconPlus size={16} />}>
-                Carregar Dados de Teste
-              </Button>
-              <Button variant="secondary" onClick={() => navegarPara('aluno/novo')}>
-                Novo Aluno
+              <Button variant="primary" onClick={() => navegarPara('aluno/novo')} icon={<IconPlus size={16} />}>
+                Cadastrar Primeiro Aluno
               </Button>
             </div>
           </Card>

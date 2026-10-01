@@ -285,11 +285,12 @@ export async function inicializarDadosPadrao(database: PersonalDatabase = db): P
   if (!configExistente) {
     const configPadrao: Config = {
       id: 'unico',
-      nomePersonal: 'Carlos Personal',
-      cref: '012345-G/SP',
-      cpfCnpj: '123.456.789-00',
-      cidade: 'São Paulo',
-      chavePix: 'carlos.personal@pix.com',
+      nomePersonal: '',
+      cref: '',
+      cpfCnpj: '',
+      cidade: '',
+      chavePix: '',
+      linkCartao: '',
       nivelAutomacao: 'manual',
       horaInicioEnvio: 8,
       horaFimEnvio: 20,
@@ -309,6 +310,28 @@ export async function inicializarDadosPadrao(database: PersonalDatabase = db): P
     await database.config.put(configPadrao);
   }
 
+  // Remove pessoas de demonstração antigas caso ainda existam no banco local
+  const idsDemo = ['aluno-demo-mariana', 'aluno-demo-lucas', 'aluno-demo-camila'];
+  const temDemo = await database.alunos.where('id').anyOf(idsDemo).count();
+  if (temDemo > 0) {
+    await database.alunos.where('id').anyOf(idsDemo).delete();
+    await database.contratos.where('id').equals('contrato-demo-mariana').delete();
+    await database.cobrancas.where('id').anyOf(['cob-demo-1', 'cob-demo-2', 'cob-demo-3']).delete();
+    await database.presencas.where('id').anyOf(['presenca-demo-1', 'presenca-demo-2', 'presenca-demo-3', 'presenca-demo-4', 'presenca-demo-5']).delete();
+  }
+
+  // Se o config ainda tinha os dados fictícios de exemplo de Carlos Personal, limpa todos os campos
+  if (configExistente && configExistente.nomePersonal === 'Carlos Personal') {
+    await database.config.update('unico', {
+      nomePersonal: '',
+      cref: '',
+      cpfCnpj: '',
+      cidade: '',
+      chavePix: '',
+      linkCartao: '',
+    });
+  }
+
   const countToques = await database.toquesRegua.count();
   if (countToques === 0) {
     const toquesCompletos: ToqueRegua[] = TOQUES_PADRAO.map((toque) => ({
@@ -317,12 +340,6 @@ export async function inicializarDadosPadrao(database: PersonalDatabase = db): P
       atualizadoEm: agora,
     }));
     await database.toquesRegua.bulkPut(toquesCompletos);
-  }
-
-  // Se o banco estiver vazio em alunos, popula dados iniciais para testes
-  const countAlunos = await database.alunos.count();
-  if (countAlunos === 0) {
-    await carregarDadosDemonstracao(database);
   }
 }
 

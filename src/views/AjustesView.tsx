@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Header } from '../components/ui/Header';
-import { IconShare, IconChevronRight, IconCheck, IconPlus } from '../components/ui/Icons';
+import { IconShare, IconChevronRight, IconCheck } from '../components/ui/Icons';
 import { navegarPara } from '../router';
-import { db, carregarDadosDemonstracao } from '../db';
+import { db } from '../db';
 import { exportarTudo, importarTudo, compartilharOuBaixarBackup, limparTudo } from '../db/backup';
 import type { Config } from '../types/database';
 
@@ -115,18 +115,6 @@ export const AjustesView: React.FC = () => {
     }
   };
 
-  const handleCarregarDemo = async () => {
-    try {
-      await carregarDadosDemonstracao();
-      setTipoMsg('sucesso');
-      setMsgStatus('Dados de exemplo carregados! (Mariana Silva, Lucas Oliveira e Camila Rocha)');
-      setTimeout(() => setMsgStatus(null), 4000);
-    } catch (e) {
-      setTipoMsg('erro');
-      setMsgStatus(`Erro ao carregar dados de demonstração: ${(e as Error).message}`);
-    }
-  };
-
   const handleLimpar = async () => {
     if (!confirmandoLimpeza) {
       setConfirmandoLimpeza(true);
@@ -215,7 +203,7 @@ export const AjustesView: React.FC = () => {
               <label style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Seu Nome Completo</label>
               <input
                 type="text"
-                placeholder="Ex: Carlos Personal"
+                placeholder="Seu nome completo"
                 value={nomePersonal}
                 onChange={(e) => setNomePersonal(e.target.value)}
                 style={{
@@ -270,7 +258,7 @@ export const AjustesView: React.FC = () => {
               <label style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Cidade (Exigido pelo padrão PIX BR Code)</label>
               <input
                 type="text"
-                placeholder="Ex: Sao Paulo"
+                placeholder="Sua cidade"
                 value={cidade}
                 onChange={(e) => setCidade(e.target.value)}
                 style={{
@@ -349,20 +337,12 @@ export const AjustesView: React.FC = () => {
           <IconChevronRight size={20} style={{ color: 'var(--text-secondary)' }} />
         </Card>
 
-        {/* Bloco 5: Testes e Dados de Demonstração */}
+        {/* Bloco 5: Gerenciamento dos Dados */}
         <Card style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <h3 style={{ fontSize: '15px' }}>Ferramentas de Teste</h3>
+          <h3 style={{ fontSize: '15px' }}>Gerenciamento dos Dados</h3>
           <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-            Carregue dados de exemplo para testar todos os fluxos de cobrança, contratos e presença:
+            Se desejar recomeçar do zero e apagar permanentemente todos os alunos, presenças e cobranças deste aparelho:
           </p>
-
-          <Button
-            variant="secondary"
-            icon={<IconPlus size={16} />}
-            onClick={handleCarregarDemo}
-          >
-            Carregar Dados de Demonstração
-          </Button>
 
           {confirmandoLimpeza ? (
             <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
@@ -381,7 +361,7 @@ export const AjustesView: React.FC = () => {
                   cursor: 'pointer',
                 }}
               >
-                Confirmar: Limpar Todo o Banco
+                Confirmar: Apagar Todos os Dados
               </button>
               <button
                 type="button"
@@ -408,15 +388,16 @@ export const AjustesView: React.FC = () => {
               style={{
                 minHeight: '40px',
                 backgroundColor: 'transparent',
-                border: '1px solid var(--border-color)',
-                color: 'var(--text-secondary)',
+                border: '1px solid #FECACA',
+                color: 'var(--negative)',
                 borderRadius: 'var(--radius-btn)',
                 fontSize: '12px',
+                fontWeight: 600,
                 cursor: 'pointer',
                 marginTop: '4px',
               }}
             >
-              Zerar Banco Local (Para testes)
+              Apagar Todos os Dados Deste Aparelho
             </button>
           )}
         </Card>
