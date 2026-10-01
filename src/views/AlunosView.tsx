@@ -4,7 +4,7 @@ import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Header } from '../components/ui/Header';
 import { EmptyState } from '../components/ui/EmptyState';
-import { IconSearch, IconPlus, IconAlunos, IconChevronRight, IconWhatsApp } from '../components/ui/Icons';
+import { IconSearch, IconPlus, IconAlunos } from '../components/ui/Icons';
 import { navegarPara } from '../router';
 import { db } from '../db';
 import { formatarDiasSemana } from '../utils/formatters';
@@ -431,13 +431,14 @@ export const AlunosView: React.FC = () => {
                         : ativInfo.emRisco
                         ? '4px solid #D97706'
                         : '4px solid var(--primary)',
+                    cursor: 'pointer',
                   }}
+                  onClick={() => navegarPara(`aluno/${aluno.id}`)}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     {/* Identificação e Avatar */}
                     <div
-                      style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', minWidth: 0, flex: 1 }}
-                      onClick={() => navegarPara(`aluno/${aluno.id}`)}
+                      style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}
                     >
                       <div
                         style={{
@@ -474,51 +475,6 @@ export const AlunosView: React.FC = () => {
                             : `🌐 Consultoria • Check-in ${aluno.frequenciaCheckin || 'semanal'}`}
                         </p>
                       </div>
-                    </div>
-
-                    {/* Ação WhatsApp Rápida */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
-                      <button
-                        type="button"
-                        title="Abrir WhatsApp com o aluno"
-                        onClick={() => {
-                          const tel = aluno.telefone.replace(/\D/g, '');
-                          window.open(`https://wa.me/${tel}`, '_blank');
-                        }}
-                        style={{
-                          width: '32px',
-                          height: '32px',
-                          borderRadius: '6px',
-                          border: '1px solid #BBF7D0',
-                          backgroundColor: '#F0FDF4',
-                          color: 'var(--whatsapp)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <IconWhatsApp size={16} />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => navegarPara(`aluno/${aluno.id}`)}
-                        style={{
-                          width: '32px',
-                          height: '32px',
-                          borderRadius: '6px',
-                          border: '1px solid var(--border-color)',
-                          backgroundColor: '#FFFFFF',
-                          color: 'var(--text-secondary)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <IconChevronRight size={16} />
-                      </button>
                     </div>
                   </div>
 
